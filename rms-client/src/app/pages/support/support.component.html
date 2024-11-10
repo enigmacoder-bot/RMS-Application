@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div>
+            <button class="btn btn-secondary" (click)="goBack()">Back</button>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center p-3">
+        <div>
+            <h2>Report</h2>
+            <span>Why are you reporting this post ?</span>
+            <div>
+                <div  class="btn  m-2"*ngFor="let option of reportOptions;let i=index">
+                    <button class="btn btn-outline-primary" (click)="selectOption(option)">{{option}}</button>
+                </div>
+            </div>
+            <div>
+                <!-- <div class="form-check">
+                    <input class="form-check-input" type="radio" name="selectedOption" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Default radio
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="selectedOption" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Default checked radio
+                    </label>
+                  </div> -->
+                  <div *ngFor="let priority of priorityOptions;let i=index">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" [name]=selectedOption (change)="onPriorityChange(priority)" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            {{priority}}
+                        </label>
+                      </div>
+                  </div>
+            </div>
+            <div>
+                <h4>Reason</h4>
+                <span>Help us understand the problem</span>
+                <div>
+                    <textarea class="form-control" [(ngModel)]="comments" name="" rows="4" id=""></textarea>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <button class="btn btn-success" (click)="submitReport()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

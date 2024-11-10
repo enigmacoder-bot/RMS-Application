@@ -1,0 +1,248 @@
+<div class="container mt-4">
+      
+  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center" class="mt-3">
+    <mat-tab label="Users">
+
+        <app-searchbar 
+        [placeholder]="'Search Users here'"
+        (onChange)="searchUser($event)"></app-searchbar>
+
+        <div class="users container" *ngIf="users.length > 0">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>IsGoogleLoggedIn</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.isGoogleLogin}}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-warning" (click)="selectUserForEdit(user)">Edit</button>
+                                <button class="btn btn-danger">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </mat-tab>
+    <mat-tab label="Posts">
+
+        <app-searchbar
+        placeholder="search for posts"  (onChange)="searchProducts()"></app-searchbar>
+
+        <div class="container">
+            <ul class="list-group">
+                <div class="list-group-item mt-3" *ngFor="let post of posts;let i=index">
+                    <div class="row">
+                        <div class="col">
+                            
+                        </div>
+                        <div class="col">
+                            <h4>{{post.postName}}</h4>
+                            <span>{{post.description}}</span>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex flex-column gap-3">
+                                <button class="btn btn-warning">Edit</button><button class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </ul>
+        </div>
+    </mat-tab>
+    <mat-tab label="Category">
+        <div>
+            <div class="row">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" (click)="openCategory()">Add Category</button>
+                </div>
+            </div>
+            <div>
+                <h1>Categories :</h1>
+            </div>
+            <table  class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Icon</th>
+                        <th>Label</th>
+                        <th>Color code</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of categories;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{category.label}}</td>
+                        <td>
+                            <img class="button-image" src={{category.icon}} alt="" srcset="">
+                        </td>
+                        <td>{{category.colorcode}}</td>
+                        <td>{{category.description}}</td>
+                        <td>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-info" (click)="selectCategoryForUpdate(category)">Edit</button>
+                                <button class="btn btn-danger">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-tab>
+    <mat-tab label="Reports" data-attribute="">
+        <div *ngFor="let report of reports;let i=index" >
+            <div class="d-flex mb-2" (click)="selectReport(report)">
+                <div class="flex-grow-1">
+                    <span *ngIf="report.readed">{{i+1}}</span>
+                    <span *ngIf="!report.readed"><b>{{i+1}}</b></span>
+                </div>
+                <div class="flex-grow-1">
+                    <div>
+                        <span *ngIf="report.readed">{{report.reason}}</span><br/>
+                        <span *ngIf="!report.readed"><b>{{report.reason}}</b></span><br/>
+                        <span *ngIf="report.readed">{{report.comments}}</span>
+                        <span *ngIf="!report.readed"><b>{{report.comments}}</b></span>
+                    </div>
+                </div> 
+                <div class="flex-grow-1">
+                   <div>
+                    <span *ngIf="report.readed">{{report.createdOn}}</span>
+                    <span *ngIf="!report.readed"><b>{{report.createdOn}}</b></span>
+                   </div>
+                </div>
+                <div>
+                    <button class="btn btn-danger" (click)="deleteTicket($event)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #editUser>
+    <div>
+        <div class="modal-header">Update User : <b>{{userForm.value.username}}</b></div>
+        <form class="modal-body" [formGroup]="userForm">
+            <div class="form-group m-3">
+                <label for="">Username :</label>
+                <input type="text" class="form-control" placeholder="Enter a Username" formControlName="username"/>
+            </div>
+            <div class="form-group m-3">
+                <label for="">Email Id :</label>
+                <input type="text" class="form-control" placeholder="Enter a email" formControlName="email"/>
+            </div>
+           <div>
+            <div class="form-check">
+                <label class="form-check-label" for="flexCheckDefault">
+                   Do you want to change password ?
+                </label>
+                <input class="form-check-input" type="checkbox" formControlName="isPassword" id="flexCheckDefault">
+              </div>
+              <div *ngIf="userForm.value.isPassword">
+                <div class="form-group m-3">
+                    <label for="">Enter a New Password :</label>
+                    <input type="text" class="form-control" placeholder="Enter a new Password" formControlName="password"/>
+                </div>
+                <div class="form-group m-3">
+                    <label for="">Confirm Password :</label>
+                    <input type="text" class="form-control" placeholder="Confirm Password" formControlName="confirmpassword"/>
+                </div>
+              </div>
+           </div>
+        </form>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button class="btn btn-success">Update</button>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #addEditCategory class="p-5">
+    <div class="modal-title">Add or Update Category</div>
+    <div class="modal-body">
+        <form [formGroup]="categoryForm">
+            <div class="form-group">
+                <label for="">Name :</label>
+                <input type="text" placeholder="Name" class="form-control" formControlName="categoryName"/>
+            </div>
+            <div class="form-group">
+                <label for="">Description :</label>
+                <input type="text" placeholder="Description" class="form-control" formControlName="description"/>
+            </div>
+            <div class="form-group">
+                <label for="">Icon link :</label>
+                <input type="text" placeholder="icon link" class="form-control" formControlName="iconLink"/>
+            </div>
+            <div class="form-group">
+                <label for="">Color code :</label>
+                <input type="text" placeholder="color code" class="form-control" formControlName="colorcode"/>
+            </div>
+            <div class="form-group mt-3">
+                <div class="form-group d-flex">
+                    <div>
+                        <input type="text" placeholder="Name" class="form-control" formControlName="tag"/>
+                    </div>
+                    <div>
+                        <button class="btn btn-info" (click)="addTagList()">Add</button>
+                    </div>
+                </div>
+                    
+                <div *ngFor="let tag of displayTags().controls;let i=index">
+                    <span>{{tag.value}}</span>
+                    <button class="btn btn-danger" (click)="removeTag(i)">remove</button>
+                </div>
+            </div>
+
+            <div class="form-group d-flex gap-4">
+                <button class="btn btn-success" (click)="createOrUpdateCategory()">Submit</button>
+                <button class="btn btn-secondary" (click)=categoryForm.reset()>Reset</button>
+                <button class="btn btn-danger" (click)="closeCategory()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #feedback>
+    <div class="modal-title">
+        <h2>Report Details</h2>
+    </div>
+    <div class="modal-body">
+        <div class="p-4">
+           <div class="d-flex justify-content-end">
+                <div>
+                    <span>{{report.createdOn}}</span>
+                </div>
+           </div>
+           <span class="mt-3">Reported on the post :<a>{{report.postid}}</a></span><br/>
+           <h4 class="mt-3">Reason for report :<strong>{{report.reason}}</strong></h4><br/>
+           <div class="mt-3 form-control">
+             {{report.comments}}
+           </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="deleteTicket($event)">Close Ticket</button>
+        <button class="btn btn-warning">Close & Delete Ticket</button>
+    </div>
+</ng-template>
+

@@ -1,0 +1,81 @@
+<div class="loader"></div>
+<section class="container">
+
+
+  <div class="row mt-3" *ngIf="category">
+    <div>
+      <h4>Search the post you wanted to read the review</h4>
+    </div>
+    <app-searchbar placeholder="Enter post Name"
+    [size]='posts.length > 0 ? "2.5rem":"3.5rem"'
+    (onChange)="getProducts($event)"></app-searchbar>
+  </div>
+
+  <!-- render the categories -->
+
+<div class="d-flex justify-content-center">
+  <div>
+    <div *ngIf="!category">
+      <h1>CHOOSE ANY OF THE CATEGORY TO SEARCH FOR</h1>
+    </div>
+    <div class="row mt-4" *ngIf="!category" style="cursor: pointer;">
+      <div
+        class="col-md-3 mb-3"
+        *ngFor="let item of categories; let i = index"
+      >
+        <div
+          class="card h-100 shadow rounded "
+          [ngStyle]="{
+            'background-image': 'url(' + item.icon + ')',
+            'background-size': 'cover',
+            'background-position': 'center',
+            'background-repeat': 'no-repeat'
+          }"
+        >
+          <div class="card-body text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+            <h1 class="card-title" (click)="onCategorySelect(item.label)">{{ item.label }}</h1>
+            <p>{{ item.description }}</p>
+            <div *ngFor="let sublabel of item.sublabel.split(';')" class="sublabel rounded">
+              <span (click)="searchByLabel(item.label,sublabel)">{{ sublabel }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+  <!-- render products -->
+
+ <div class="d-flex justify-content-between" *ngIf="category && posts.length > 0">
+  <button class="btn btn-secondary m-3" (click)="clearPosts()">Back</button>
+  <div class="btn-group m-3" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary" (click)="selectOrder('latest')">Latest</button>
+    <button type="button" class="btn btn-secondary" (click)="selectOrder('oldest')">Oldest</button>
+  </div>
+ </div>
+
+
+    
+    <div class="container mt-3"  *ngIf="posts.length > 0" style="cursor: pointer;">
+        <div class="row">
+          <div class="col-md-3 mb-3" *ngFor="let item of posts;let i=index" (click)="onSelectProduct(item.postid)">
+            <div class="card h-100 shadow rounded p-2">
+              <img [src]=getBase64Image(item.images[0].data) class="card-img-top" alt="{{ item.postName }}">
+              
+              <div class="card-body">
+                <h5 class="card-title"><b>{{ item.postName }}</b></h5>
+                <h4 *ngIf="item.AddtionalName"><b>{{item.AdditionalName}}</b></h4>
+                <div class="d-flex gap-3">
+                  <ngb-rating class="star-rating" [(rate)]="item.ratings" [max]="5" [readonly]="true"></ngb-rating>
+                  <h3>{{item.ratings}}.0</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+</section>

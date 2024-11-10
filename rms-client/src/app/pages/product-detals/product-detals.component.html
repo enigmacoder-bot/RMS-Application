@@ -1,0 +1,114 @@
+<!-- <app-loader></app-loader> -->
+<div class="container">
+    <div class="m-3 d-flex justify-content-between">
+        <div>
+            <button class="btn btn-secondary" (click)="back()" >
+                <fa-icon [icon]="backArrow"></fa-icon>
+            </button>
+        </div>
+        <div>
+            <div ngbDropdown class="d-inline-block" *ngIf="isLoggedIn">
+                <button id="dropdownBasic1" ngbDropdownToggle>
+                    <fa-icon [icon]="settings"></fa-icon>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <span (click)="navigateToReport()"> Report </span>
+                    <div *ngIf="isAdmin">
+                        <span>Delete Post</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="row h2">
+        <span>Product Details</span>
+    </div>
+    <div class="row">
+        <div class="col">
+            <app-carousel [images]="Images" [name]="'Manvith'"></app-carousel>
+        </div>
+        <div class="col">
+            <h2>PostName : <b>{{currentProduct?.postName}}</b></h2>
+            <h4><b>{{currentProduct?.AdditionalName}}</b></h4>
+            <div *ngFor="let sub of currentProduct?.subCategory;">{{sub}}</div>
+            <span>{{currentProduct?.description}}</span>
+            <span>{{currentProduct?.Description}}</span>
+            <div>
+                <h2 class="mb-0">{{currentProduct?.ratings}}.0</h2>
+            </div>
+            <div class="rating">
+                <ngb-rating [max]="5" [rate]="currentProduct?.ratings" class="star-rating"
+                    [readonly]="true"></ngb-rating>
+            </div>
+            <div>
+                <span>uploaded on :<b>{{currentProduct?.date}}</b></span>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="review-container" *ngIf="isLoggedIn">
+                    <div class="form-group col">
+                        <h2 for="">Your Reviews :</h2>
+                        <input type="text" [(ngModel)]="comments" class="form-control"
+                            placeholder="Type your comment here" />
+                    </div>
+                    <div class="d-flex w-fit-content mt-3" style="gap: 100px;">
+                        <div class="d-flex flex-column">
+                            <ngb-rating [max]="5" class="star-rating-md" [(ngModel)]="ratings"></ngb-rating>
+                            <span class="mt-2" *ngIf="ratings">{{ getReviewSentence}}</span>
+                        </div>
+                        <button class="btn btn-success" (click)="createRatings()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="user-icon col">
+                    <img src="" alt="">
+                </div>
+
+            </div>
+            <div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h2>Reviews for this post :</h2>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-between" *ngIf="reviews.length > 0">
+                            <div class="btn-group m-3" role="group" aria-label="Basic example">
+                              <button type="button" class="btn btn-secondary" (click)="selectOrder('latest')">Latest</button>
+                              <button type="button" class="btn btn-secondary" (click)="selectOrder('oldest')">Oldest</button>
+                            </div>
+                           </div>
+                    </div>
+                </div>
+                <div *ngFor="let review of reviews" class="d-flex justify-content-between  p-3 mb-1 bg-white rounded ">
+                    <div class="d-flex justify-content-between gap-3">
+                        <img class="review-avator" [src]="'assets/rms-avator/' + review.profileIcon + '.jpg'" alt="User Avatar">
+                        <div>
+                            <h3>{{review.username}}</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <span>{{review.comment}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between gap-3">
+                        <div>
+                        <ngb-rating [(rate)]="review.ratings" class="star-rating-md" [max]="5"
+                            [readonly]="true"></ngb-rating>
+                        </div>
+                        <div ngbDropdown class="d-inline-block"  *ngIf="userid === review.userid">
+                            <button id="dropdownBasic1" ngbDropdownToggle>:
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem (click)="populateReview(review)">Edit</button>
+                                <button ngbDropdownItem (click)="deleteReview(review.reviewid)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

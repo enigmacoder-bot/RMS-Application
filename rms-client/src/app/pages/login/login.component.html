@@ -1,0 +1,90 @@
+<div class="min-vh-100 bg-light d-flex align-items-center">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <!-- Card with improved shadow and spacing -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <h1 class="text-center mb-4">Review Management System</h1>
+
+            <form #loginform="ngForm">
+              <div class="mb-4">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  class="form-control form-control-lg"
+                  type="email"
+                  placeholder="Enter your email address"
+                  id="email"
+                  name="email"
+                  [(ngModel)]="email"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  class="form-control form-control-lg"
+                  type="password"
+                  placeholder="Enter password"
+                  id="password"
+                  name="password"
+                  [(ngModel)]="password"
+                  (change)="validatePassword()"
+                  required
+                />
+                <div class="form-text text-danger" *ngIf="validatePassword()">
+                  Password must be greater than 6 characters
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <a
+                  class="text-decoration-none"
+                  role="button"
+                  (click)="toggleMethods()"
+                >
+                  {{ authenticateString }}
+                </a>
+              </div>
+
+              <!-- Primary action button -->
+              <button
+                *ngIf="isSignIn"
+                type="submit"
+                class="btn btn-primary btn-lg w-100 mb-3"
+                [disabled]="loginform.invalid"
+                (click)="loginUser()"
+              >
+                Sign In
+              </button>
+              <button
+                *ngIf="!isSignIn"
+                type="submit"
+                class="btn btn-primary btn-lg w-100 mb-3"
+                [disabled]="loginform.invalid"
+                (click)="registerUser()"
+              >
+                Sign Up
+              </button>
+
+              <div class="text-center mb-3">
+                <span class="text-muted">Or</span>
+              </div>
+
+              <!-- Google sign in button -->
+              <button
+                type="button"
+                class="btn btn-outline-dark btn-lg w-100 d-flex align-items-center justify-content-center gap-2"
+                (click)="openWindow()"
+              >
+                <i class="fab fa-google"></i>
+                Sign in with Google
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
