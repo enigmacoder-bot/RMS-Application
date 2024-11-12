@@ -5,7 +5,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
+.native-post-web
+{
+    display: block;
+}
+.native-post
+{
+    display: none;
+}
 
 .list-image{
     width: 100px;
@@ -124,4 +131,48 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       cursor: not-allowed;
     }
   }
+.profile-img-container
+{
+    max-width: fit-content;
+    overflow: hidden;
+    height: 250px;
+}
+.profile-img{
+    max-width: 100%;
+    clip-path: circle(42.29% at 51.38% 37.94%);
+}
+.profile-name{
+    gap: 3rem  !important;
+}
+
+@media only screen and (max-width:600px)  {
+    .img-slide {
+        width: 281px !important;
+        height: 251px !important;
+    }
+    .picsum-img-wrapper{
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .modal-content{
+            width: 367px !important;
+            position: relative  !important;
+            bottom: 330px  !important;
+    }
+    .bs-stepper-label {
+	    display: none;
+	    margin: .25rem;
+}
+    .native-post-web
+    {
+        display: none;
+    }
+    .native-post
+    {
+        display: block;
+    }
+    .profile-name{
+        gap: 1rem  !important;
+    }
+}
     

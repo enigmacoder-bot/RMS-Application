@@ -15,8 +15,8 @@
             <div *ngIf="!currentUser.profileIcon">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5-3YjBcXTqKUlOAeUUtuOLKgQSma2wGG1g&s" alt="Default Avatar">
             </div>
-            <div *ngIf="currentUser.profileIcon">
-                <img [src]="'assets/rms-avator/' + currentUser.profileIcon + '.jpg'" alt="User Avatar">
+            <div class="profile-img-container" *ngIf="currentUser.profileIcon">
+                <img class="profile-img" [src]="'assets/rms-avator/' + currentUser.profileIcon + '.jpg'" alt="User Avatar">
             </div>
             <div>
                 <button (click)="allowEdit()" class="btn">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="d-flex justify-space-between gap-5">
+            <div class="d-flex justify-space-between profile-name">
                 <div class="form-group mt-3">
                     <label for="">Email :</label>
                     <span class="form-control">{{currentUser.email}}</span>
@@ -41,7 +41,7 @@
             </div>
         </div>
        </form>
-       <div>
+<div class="native-post-web">
         <h2>Posts :</h2>
         <div class="container row">
             <div *ngFor="let post of posts;let i=index" class=" p-3 mb-1 bg-white  
@@ -73,10 +73,43 @@
         </div>
        </div>
     </div>
+   
+    <div class="native-post">
+        <h2>Posts :</h2>
+        <div class="container row">
+            <div *ngFor="let post of posts;let i=index" class=" p-3 mb-1 bg-white  
+            d-flex justify-content-between gap-3">
+                <div>
+                    <span>{{i+1}}</span>
+                </div>
+                <div>
+                    <span><b>{{post.postName}}</b></span><br/>
+                    <div>{{post.AdditionalName}}</div>
+                </div>
     
+                <div>
+                    <ngb-rating class="star-rating" [(rate)]="post.ratings" [max]="5" [readonly]="true"></ngb-rating><br/>
+                    <span>{{post.date}}</span>
+                </div>
+                <div>
+                    <button class="btn" (click)="visitPost(post.postid)">
+                        <fa-icon [icon]="viewPostIcon"></fa-icon>
+                    </button>
+                    <button  class="btn" (click)="editPost(post.postid)">
+                        <fa-icon [icon]="editPostIcon"></fa-icon>
+                    </button>
+                    <button  class="btn" (click)="onClickDelete(post.postid)">
+                        <fa-icon [icon]="deleteIcon"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+       </div>
+
+
 </div>
 
-<ng-template #editProfile>
+<ng-template #editProfile >
     <div class="modal-header">
         <h3>Edit Profile Image :</h3>
     </div>

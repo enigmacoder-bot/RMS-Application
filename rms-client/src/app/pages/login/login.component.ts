@@ -28,7 +28,7 @@ export class LoginComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   loginUser() {
-    if (this.email && this.password) {
+    if (this.email && this.password && !this.validatePassword()) {
       const loginObj = this.loginform?.value;
       this.userService.loginUser(loginObj).subscribe((data) => {
         this.authService.setloggedUser(data);
@@ -41,7 +41,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   registerUser() {
-    if (this.email && this.password) {
+    if (this.email && this.password && !this.validatePassword()) {
       const formObj = this.loginform?.value;
       formObj['username'] = this.sharedSerice.randomizeUsername(formObj.email);
       this.userService.registerUser(formObj).subscribe((data) => {
@@ -62,7 +62,9 @@ export class LoginComponent implements AfterViewInit {
     this.loginform?.reset();
   }
 
-  validateEmail() {}
+  validateEmail() {
+
+  }
 
   validatePassword(): boolean {
     if (this.password) {
