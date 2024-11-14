@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 // import { products } from 'src/data/product'
 import { PostServices } from 'src/app/services/posts.services';
 import { ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { faArrowLeft,faEllipsisVertical } from '@fortawesome/free-solid-svg-icon
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import Swal from 'sweetalert2'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -57,12 +58,16 @@ export class ProductDetalsComponent {
   reviewid:string=""
   isAdmin:boolean=false;
 
+  postid:string=''
+
   backArrow = faArrowLeft;
   settings = faEllipsisVertical
   
+  @ViewChild("deletePopup") deleteModal:any;
 
   constructor(private router:ActivatedRoute,private postService:PostServices,private reviewService:ReviewService,
-    private authServices:AuthServices,private sharedServices:SharedServices,private routerServices:Router){}
+    private authServices:AuthServices,private sharedServices:SharedServices,private routerServices:Router,
+    private modalServices:NgbModal){}
 
   ngOnInit()
   {
@@ -195,7 +200,7 @@ export class ProductDetalsComponent {
     if(this.checkIsAdmin())
     {
       this.postService.deletePostById(this.currentProduct.postid).subscribe((data)=>{
-        console.log("Post Deleted Successfully")
+       this.routerServices.navigateByUrl('/dashboard')
       })
     }
   }
@@ -216,5 +221,11 @@ export class ProductDetalsComponent {
 
       })
   }
+
+  openDeleteModal()
+  {
+    this.modalServices.open(this.deleteModal,{centered:true});
+  }
+
 
 }

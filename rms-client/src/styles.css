@@ -5,6 +5,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.pointer{
+    cursor: pointer;
+}
+
 .native-post-web
 {
     display: block;
@@ -174,5 +178,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .profile-name{
         gap: 1rem  !important;
     }
+}
+
+.noproductimage{
+    width: 128px;
+    height: 128px;
 }
     

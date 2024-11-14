@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { SharedServices } from 'src/app/services/shared-services';
 import { FeedbackServices } from 'src/app/services/feedback.services';
 import { faUser,faEnvelopeOpen,faLayerGroup,faFlag } from '@fortawesome/free-solid-svg-icons'
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -63,7 +63,8 @@ categoryForm = new FormGroup({
 
 constructor(private userService:UserServices,private postService:PostServices,
 private categorySerices:CategoryServices,private modalServices:NgbModal,
-private sharedServices:SharedServices,private feedbackServices:FeedbackServices){}
+private sharedServices:SharedServices,private feedbackServices:FeedbackServices,
+private router:Router){}
 
 ngOnInit()
 {
@@ -220,4 +221,10 @@ deleteTicket(event:Event)
   console.log("Hello")
 }
 
+visitPost(index:string)
+{
+  console.log(index)
+  this.router.navigate(['product-detail',index])
+  this.modalServices.dismissAll()
+}
 }

@@ -223,26 +223,30 @@
 
 
 <ng-template #feedback>
-    <div class="modal-title">
-        <h2>Report Details</h2>
-    </div>
-    <div class="modal-body">
-        <div class="p-4">
-           <div class="d-flex justify-content-end">
-                <div>
-                    <span>{{report.createdOn}}</span>
-                </div>
-           </div>
-           <span class="mt-3">Reported on the post :<a>{{report.postid}}</a></span><br/>
-           <h4 class="mt-3">Reason for report :<strong>{{report.reason}}</strong></h4><br/>
-           <div class="mt-3 form-control">
-             {{report.comments}}
-           </div>
+    <div class="p-4">
+        <div class="modal-title">
+            <h2>Report Details</h2>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-success" (click)="deleteTicket($event)">Close Ticket</button>
-        <button class="btn btn-warning">Close & Delete Ticket</button>
+        <hr/>
+        <div class="modal-body">
+            <div class="p-2">
+               <div class="d-flex justify-content-end">
+                    <div>
+                        <span>Created on <strong>{{report.createdOn}}</strong></span>
+                    </div>
+               </div>
+               <span class="mt-3"><strong class="m-0">Reported on the post</strong> :</span><br/>
+               <button class="btn link-primary" (click)="visitPost(report.postid)">{{report.postid}}</button>
+               <h4 class="mt-1">Reason for report :<strong>{{report.reason}}</strong></h4>
+               <div class="form-control">
+                 {{report.comments}}
+               </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" (click)="deleteTicket($event)">Close Ticket</button>
+            <button class="btn btn-warning">Close & Delete Ticket</button>
+        </div>
     </div>
 </ng-template>
 
