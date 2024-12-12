@@ -87,7 +87,7 @@ export class HomeComponent {
   }
 
   trimString(description:string){
-    return this.sharedServices.trimString(description,100,description.length)
+    return this.sharedServices.trimString(description,250,description.length)
   }
 
   async searchByLabel(label:string,sublabel:string)

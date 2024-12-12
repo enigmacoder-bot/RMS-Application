@@ -217,10 +217,16 @@ export class CreateProductComponent {
   }
 
   onFileChange(event: any, index = this.imageIndex) {
+    const MAX_FILE_SIZE_MB = 1.5;
     if (event.target.files && event.target.files.length) {
       const file = event.target.files[0];
-      console.log(index)
-      console.log(file)
+
+      const fileSizeInMB = file.size / (1024 * 1024);
+      if (fileSizeInMB > MAX_FILE_SIZE_MB) {
+        alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB. Please upload a smaller file.`);
+        this.removeImage()
+      }
+      
       const imagesArray = this.form.get('images') as FormArray;
       imagesArray.at(index).patchValue({
         image: file
@@ -238,10 +244,6 @@ export class CreateProductComponent {
     this.closePopup()
   }
 
-  // getImage()
-  // {
-  //   (this.form.get("images") as FormArray).controls.filter((image)=>i)
-  // }
 
   removeImage(index=this.imageIndex) {
     (this.form.get('images') as FormArray).removeAt(index);

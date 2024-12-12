@@ -204,6 +204,10 @@ export class ProductDetalsComponent {
       })
     }
   }
+  closeDeleteModal()
+  {
+    this.modalServices.dismissAll();
+  }
 
   selectOrder(order:string)
   {

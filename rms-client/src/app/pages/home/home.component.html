@@ -1,4 +1,8 @@
-<div class="loader"></div>
+<img 
+src="https://img.freepik.com/free-vector/abstract-white-shapes-background_79603-1362.jpg?t=st=1733984908~exp=1733988508~hmac=f23f296f74272d36f4f30060b5fcfccea96e27acbb4d3c1c68c82c0951f7af9c&w=996" 
+class="home-background"
+*ngIf="!category"
+alt=""/>
 <section class="container">
 
 
@@ -13,12 +17,14 @@
 
   <!-- render the categories -->
 
-<div class="d-flex justify-content-center">
+<div>
   <div>
-    <div *ngIf="!category">
-      <h1>CHOOSE ANY OF THE CATEGORY TO SEARCH FOR</h1>
+    <div>
     </div>
-    <div class="row mt-4" *ngIf="!category" style="cursor: pointer;">
+    <div *ngIf="!category">
+      <h1 class="header font-poppins">CHOOSE ANY OF THE CATEGORY TO SEARCH FOR</h1>
+    </div>
+    <div class="row mt-4" *ngIf="!category" style="cursor: pointer;" class="d-flex justify-content-around flex-wrap align-content-center">
       <div
         class="col-md-3 mb-3"
         *ngFor="let item of categories; let i = index"
@@ -30,11 +36,11 @@
             'background-size': 'cover',
             'background-position': 'center',
             'background-repeat': 'no-repeat'
-          }"
+          }"  
         >
-          <div class="card-body text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+          <div class="card-body text-white" style="background-color: rgba(0, 0, 0, 0.7);">
             <h1 class="card-title" (click)="onCategorySelect(item.label)">{{ item.label }}</h1>
-            <p>{{ item.description }}</p>
+            <p>{{ trimString(item.description) }}</p>
             <div *ngFor="let sublabel of item.sublabel.split(';')" class="sublabel rounded">
               <span (click)="searchByLabel(item.label,sublabel)">{{ sublabel }}</span>
             </div>
@@ -48,9 +54,9 @@
 
 
   <!-- render products -->
-  <button class="btn btn-secondary m-3" *ngIf="category"  (click)="clearPosts()">Back</button>
- <div class="d-flex justify-content-between" *ngIf="category && posts.length > 0">
-  <div class="btn-group m-3" role="group" aria-label="Basic example">
+<div class="d-flex justify-content-between">
+<button class="btn btn-secondary m-3" *ngIf="category"  (click)="clearPosts()">Back</button>
+  <div class="btn-group m-3" role="group" aria-label="Basic example" *ngIf="category && posts.length > 0">
     <button type="button" class="btn btn-secondary" (click)="selectOrder('latest')">Latest</button>
     <button type="button" class="btn btn-secondary" (click)="selectOrder('oldest')">Oldest</button>
   </div>

@@ -95,10 +95,12 @@
               (keydown)="onKeydownSubcategory($event)" />
               </div>
               <div *ngIf="getSubCategories().controls.length > 0">
-                <div *ngFor="let subCategory of getSubCategories().controls; let i = index">
-                  <div class="d-flex justify-space-around">
-                    <span>{{subCategory.value}}</span>
-                  <button type="button" class="btn btn-danger btn-sm" (click)="removeSubCategory(i)">-</button>
+                <div class="d-flex flex-row flex-wrap">
+                  <div *ngFor="let subCategory of getSubCategories().controls; let i = index">
+                    <div class="d-flex gap-2">
+                      <span>{{subCategory.value}}</span>
+                    <button type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeSubCategory(i)"><span>-</span></button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -115,12 +117,14 @@
               <input type="text" formControlName="tag" class="form-control mb-2" placeholder="Enter tag" 
               (keydown)="onKeydownTag($event)" />
              </div>
+             <div class="d-flex flex-row flex-wrap">
               <div *ngFor="let tag of getTags().controls; let i = index">
-                <div class="d-flex justify-space-around">
+                <div class="d-flex gap-2">
                   <span>{{tag.value}}</span>
-                <button type="button" class="btn btn-danger btn-sm" (click)="removeTag(i)">-</button>
+                <div type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeTag(i)"><span>-</span></div>
                 </div>
               </div>  
+             </div>
             </div>
           </div>
 
@@ -171,15 +175,18 @@
 
 
 <ng-template #addimage>
-  <div class="modal-title">
-    <h4>Upload Image</h4>
-  </div>
-  <div class="modal-body">
-    <input type="file" (change)="onFileChange($event)" accept="image/*" />
-    <!-- <img [src]="image.get('preview')?.value" *ngIf="image.get('preview')?.value" style="max-width: 200px;" alt="sx"/> -->
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-success" (click)="closePopup()">Select</button>
-    <button class="btn btn-danger" type="button" (click)="removeImage()">Remove</button>
+  <div class="p-4">
+    <div class="modal-title">
+      <div>
+        <h2>Upload Image</h2>
+      </div>
+    </div>
+    <div class="modal-body">
+      <input type="file" (change)="onFileChange($event)" accept="image/*" />
+      <!-- <img [src]="image.get('preview')?.value" *ngIf="image.get('preview')?.value" style="max-width: 200px;" alt="sx"/> -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" type="button" (click)="removeImage()">Remove</button>
+    </div>
   </div>
 </ng-template>

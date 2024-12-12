@@ -12,8 +12,8 @@
             </button>
         </div>
         <div>
-            <div ngbDropdown class="d-inline-block" *ngIf="isLoggedIn">
-                <button id="dropdownBasic1" ngbDropdownToggle>
+            <div ngbDropdown class="d-inline-block btn" *ngIf="isLoggedIn">
+                <button id="dropdownBasic1" ngbDropdownToggle class="product-dropdown">
                     <fa-icon [icon]="settings"></fa-icon>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -28,15 +28,12 @@
             
         </div>
     </div>
-    <div class="row h2">
-        <span>Product Details</span>
-    </div>
     <div class="row">
         <div class="col">
-            <app-carousel [images]="Images" [name]="'Manvith'"></app-carousel>
+            <app-carousel [images]="Images"></app-carousel>
         </div>
         <div class="col">
-            <h2>PostName : <b>{{currentProduct?.postName}}</b></h2>
+            <h2>Name : <b>{{currentProduct?.postName}}</b></h2>
             <h4><b>{{currentProduct?.AdditionalName}}</b></h4>
             <div *ngFor="let sub of currentProduct?.subCategory;">{{sub}}</div>
             <span>{{currentProduct?.description}}</span>
@@ -129,6 +126,6 @@
     </div>  
     <div class="modal-footer d-flex justify-content-between">
         <button class="btn btn-primary" (click)="deletePost()">Delete</button>
-        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
     </div>
 </ng-template>

@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~bs-stepper/dist/css/bs-stepper.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -8,6 +9,46 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pointer{
     cursor: pointer;
 }
+.remove-markers{
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+}
+.remove-markers span{
+        position: relative;
+        top: -6px;
+        left: -1px;
+}
+
+.badge-icon{
+    width: 20px;
+    height: 20px;
+}
+
+li{
+    color: white !important;
+}
+.font-poppins{
+    font-family: "Poppins", serif;
+}
+.home-background{
+        position: absolute;
+        width: 99vw;
+        height: 95vh;
+        filter: blur(1px);
+}
+
+.header {
+    font-size: 2.8rem !important;
+    font-weight: bolder;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    margin: 30px;
+    padding: 27px;
+}
+
 
 .native-post-web
 {
@@ -135,6 +176,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       cursor: not-allowed;
     }
   }
+.product-dropdown{
+        border: none;
+        padding: 7px;
+        background: none;
+}
+
+.dropdown-toggle::after {
+    display: none;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+
 .profile-img-container
 {
     max-width: fit-content;
@@ -154,6 +212,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         width: 281px !important;
         height: 251px !important;
     }
+    .header{
+        font-size: 24px !important;
+    }
     .picsum-img-wrapper{
         display: flex !important;
         justify-content: center !important;
@@ -161,7 +222,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .modal-content{
             width: 367px !important;
             position: relative  !important;
-            bottom: 330px  !important;
+            bottom: 124px  !important;
     }
     .bs-stepper-label {
 	    display: none;
