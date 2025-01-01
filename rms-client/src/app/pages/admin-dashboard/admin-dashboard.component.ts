@@ -151,9 +151,11 @@ removeTag(index:number)
 {
   (this.categoryForm.get('tags') as FormArray).removeAt(index)
 }
-removeSubTag(index:number)
+removeSubTag(parentIndex:number,index:number)
 {
-  
+  const list = this.categoryForm.get('tags') as FormArray
+  const subList = (list.controls[parentIndex].get('subTags') as FormArray)
+  subList.removeAt(index) 
 }
 
 
@@ -215,13 +217,14 @@ selectCategoryForUpdate(data:any)
   const rawTags = JSON.parse(data.sublabel)
   const tags = this.displayTags()
   console.log(rawTags)
-  rawTags?.forEach((tag: any)=>{
+  rawTags?.forEach((tag: any)=> {
+    const subTagArray = new FormArray(tag.subTags.map((subTag: string) => new FormControl(subTag)));
     const tagGroup = new FormGroup({
-      name:new FormControl(tag.name),
-      subTags:new FormControl(tag.subTags)
-    })
-    tags.push(tagGroup)
-  })
+      name: new FormControl(tag.name),
+      subTags: subTagArray
+    });
+    tags.push(tagGroup);
+  });
 }
 
 resetCategoryForm()

@@ -183,12 +183,8 @@ export class CreateProductComponent {
   {
     if(event.key === "Enter")
     {
-      const tagList = this.form.get("tags") as FormArray
-      console.log(tagList)
-     if(tagList)
-     {
+      event.preventDefault();
       this.addTags()
-     }
     }
   }
 

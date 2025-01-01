@@ -36,7 +36,6 @@ export class HomeComponent {
       this.category = localStorage.getItem("category")
       this.searchKey = localStorage.getItem("searchKey")
       this.postService.findPostByCategory({category:this.category,key:this.searchKey}).subscribe((data)=>{
-        console.log(data)
         this.posts = data
       })
     localStorage.removeItem("searchKey")
@@ -55,7 +54,6 @@ export class HomeComponent {
   getAllCategories(){
     this.categoryService.getAllCategory().subscribe((data)=>{
       this.categories = data
-      console.log(this.categories)
     })
   }
 
@@ -81,7 +79,6 @@ export class HomeComponent {
     this.searchKey = key.searchKey
     if(key.isValid)
     {
-      console.log(category)
       this.postService.findPostByCategory({category:category,key:key.searchKey}).subscribe((data)=>{
         this.posts = data
       })
@@ -115,10 +112,6 @@ export class HomeComponent {
     this.posts.sort((a,b)=>{
       const date_a = new Date(a.date)
       const date_b = new Date(b.date)
-
-      console.log(date_a)
-      console.log(date_b)
-
       if(order ==='latest')
       {
         return date_b.getTime() - date_a.getTime()
@@ -127,11 +120,11 @@ export class HomeComponent {
         return date_a.getTime() - date_b.getTime()
       }
     })
-    console.log(this.posts)
   }
 
-  showPopup(bool:boolean,name:string)
+  showPopup(event:Event,bool:boolean,name:string)
   {
+    event.stopPropagation()
     this.labelList=[]
     this.popShow = bool
     const hoveredCategory = this.categories.filter((category)=>{ return category.label === name })

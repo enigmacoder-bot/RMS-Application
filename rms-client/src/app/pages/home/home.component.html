@@ -21,8 +21,8 @@
      class="d-flex justify-content-between flex-wrap align-content-center container mt-4"
 >
       <div class="col-md-3 mb-3" *ngFor="let item of categories; let i = index">
-        <div class="" (mouseenter)="showPopup(true,item.label)">
-          <div >
+        <div class="" (mouseenter)="showPopup($event,true,item.label)">
+          <div (click)="showPopup($event,true,item.label)" >
             <h1 class="card-title" >{{ item.label }}</h1>
           </div>
         </div>

@@ -220,9 +220,9 @@
                                 </div>
                           </form>
                       
-                          <div *ngFor="let subTag of displaySubTags(tagGroup)">
+                          <div *ngFor="let subTag of displaySubTags(tagGroup);let j=index">
                             <span class="badge bg-primary m-1">{{ subTag }}</span>
-                            <div type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeSubTag(i)"><span>-</span></div>
+                            <div type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeSubTag(i,j)"><span>-</span></div>
                           </div>
                         </mat-expansion-panel>
                     </div>
