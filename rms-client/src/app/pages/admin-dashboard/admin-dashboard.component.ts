@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { UserServices } from 'src/app/services/user-services';
 import { PostServices } from 'src/app/services/posts.services';
 import { CategoryServices } from 'src/app/services/category.services';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators,FormGroupName } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { SharedServices } from 'src/app/services/shared-services';
@@ -24,7 +24,7 @@ categories:any=[]
 reports:any=[]
 unRead:number=0
 categoryId:string=""
-
+subInputTag:string=''
 report:any={}
 
 
@@ -51,17 +51,17 @@ userForm = new FormGroup({
 
 
 categoryForm = new FormGroup({
-  categoryName:new FormControl(""),
-  tag:new FormControl(""),
-  iconLink:new FormControl(""),
-  description:new FormControl(""),
-  colorcode:new FormControl(""),
+  categoryName: new FormControl(""),
+  tag: new FormControl(""),
+  iconLink: new FormControl(""),
+  description: new FormControl(""),
+  colorcode: new FormControl(""),
   tags: new FormArray([]),
-})
-
+});
 
 
 constructor(private userService:UserServices,private postService:PostServices,
+private fb: FormBuilder,
 private categorySerices:CategoryServices,private modalServices:NgbModal,
 private sharedServices:SharedServices,private feedbackServices:FeedbackServices,
 private router:Router){}
@@ -117,16 +117,43 @@ displayTags()
   return this.categoryForm.get('tags') as FormArray;
 }
 
-addTagList()
+displaySubTags(tagGroup:any)
 {
+  return tagGroup.get('subTags')?.value
+} 
+
+addTagList() {
   const tags = this.categoryForm.get('tags') as FormArray;
-  const tag = new FormControl(this.categoryForm.value.tag)
-  tags.push(tag)
+  const subTagArray = new FormArray([]);  // FormArray for sub-tags
+  const tagGroup = new FormGroup({
+    name: new FormControl(this.categoryForm.value.tag),
+    subTags: subTagArray,
+  });
+
+  tags.push(tagGroup);
   this.categoryForm.controls.tag.reset();
+  console.log(this.categoryForm)
+}
+
+addSubTag(index: number) {
+  const tags = this.categoryForm.get('tags') as FormArray;
+  const tagGroup = tags.at(index) as FormGroup;
+  const subTags = tagGroup.get('subTags') as FormArray;
+
+  const subTagName = this.subInputTag;
+  if (subTagName) {
+    subTags.push(new FormControl(subTagName));
+    tagGroup.get('subTagInput')?.reset();
+  }
+  this.subInputTag=""
 }
 removeTag(index:number)
 {
   (this.categoryForm.get('tags') as FormArray).removeAt(index)
+}
+removeSubTag(index:number)
+{
+  
 }
 
 
@@ -137,6 +164,7 @@ openCategory()
 closeCategory()
 {
   this.modalServices.dismissAll()
+  this.resetCategoryForm()
 }
 
 createOrUpdateCategory() {
@@ -145,7 +173,7 @@ createOrUpdateCategory() {
     let formObj ={
       label:this.categoryForm.value.categoryName,
       icon:this.categoryForm.value.iconLink,
-      sublabel:this.categoryForm.value.tags?.join(';'),
+      sublabel:JSON.stringify(this.categoryForm.value.tags),
       description:this.categoryForm.value.description,
       colorcode:this.categoryForm.value.colorcode,
     }
@@ -160,7 +188,7 @@ createOrUpdateCategory() {
       cid:Math.floor(Math.random() * (100000 - 1000 + 1)) + 1000,
       label:this.categoryForm.value.categoryName,
       icon:this.categoryForm.value.iconLink,
-      sublabel:this.categoryForm.value.tags?.join(';'),
+      sublabel:JSON.stringify(this.categoryForm.value.tags),
       description:this.categoryForm.value.description,
       colorcode:this.categoryForm.value.colorcode,
       createdOn:moment().format('L')
@@ -177,7 +205,6 @@ selectCategoryForUpdate(data:any)
 {
 
   this.openCategory()
-
   this.categoryId = data.cid
   this.categoryForm.patchValue({
     categoryName:data.label,
@@ -185,13 +212,26 @@ selectCategoryForUpdate(data:any)
     description:data.description,
     colorcode:data.colorcode
   });
-  const tagsArray = this.sharedServices.convertStringToArray(data.sublabel);
+  const rawTags = JSON.parse(data.sublabel)
   const tags = this.displayTags()
-  tagsArray.forEach((tag)=>{
-    tags.push(new FormControl(tag))
+  console.log(rawTags)
+  rawTags?.forEach((tag: any)=>{
+    const tagGroup = new FormGroup({
+      name:new FormControl(tag.name),
+      subTags:new FormControl(tag.subTags)
+    })
+    tags.push(tagGroup)
   })
 }
-//  Support Code starts from here :
+
+resetCategoryForm()
+{
+  this.categoryForm.reset()
+  this.categoryId=""
+  const labels = this.categoryForm.get('tags') as FormArray;
+  labels.clear()
+}
+
 
 fetchAllReports()
 {

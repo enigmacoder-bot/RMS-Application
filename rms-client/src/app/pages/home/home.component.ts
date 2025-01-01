@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { products } from 'src/data/product'
 import {Router} from '@angular/router'
 import { PostServices } from 'src/app/services/posts.services';
@@ -23,6 +23,10 @@ export class HomeComponent {
   categories:any[] =[]
   category:string | null =""
   searchKey:string | null =""
+  popShow:boolean=false
+  selectedCategory:string=""
+  labelList:any[]=[]
+
 
  
   ngOnInit()
@@ -40,9 +44,18 @@ export class HomeComponent {
     
   }
 
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) { 
+    if(this.popShow)
+    {
+      this.popShow = false
+    }
+  }
+
   getAllCategories(){
     this.categoryService.getAllCategory().subscribe((data)=>{
       this.categories = data
+      console.log(this.categories)
     })
   }
 
@@ -68,6 +81,7 @@ export class HomeComponent {
     this.searchKey = key.searchKey
     if(key.isValid)
     {
+      console.log(category)
       this.postService.findPostByCategory({category:category,key:key.searchKey}).subscribe((data)=>{
         this.posts = data
       })
@@ -114,6 +128,22 @@ export class HomeComponent {
       }
     })
     console.log(this.posts)
+  }
+
+  showPopup(bool:boolean,name:string)
+  {
+    this.labelList=[]
+    this.popShow = bool
+    const hoveredCategory = this.categories.filter((category)=>{ return category.label === name })
+    const labels = JSON.parse(hoveredCategory[0].sublabel)
+    this.labelList = labels
+    this.selectedCategory = name
+  }
+  fetchBySelection(name:string)
+  {
+    this.onCategorySelect(this.selectedCategory)
+    this.getProducts({searchKey:name,isValid:true})
+    this.selectedCategory=""
   }
 
 

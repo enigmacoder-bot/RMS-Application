@@ -1,13 +1,6 @@
-<img 
-src="https://img.freepik.com/free-vector/abstract-white-shapes-background_79603-1362.jpg?t=st=1733984908~exp=1733988508~hmac=f23f296f74272d36f4f30060b5fcfccea96e27acbb4d3c1c68c82c0951f7af9c&w=996" 
-class="home-background"
-*ngIf="!category"
-alt=""/>
-<section class="container">
-
-
+<section>
   <div class="row mt-3" *ngIf="category">
-    <div>
+    <div class="d-flex justify-content-center">
       <h4>Search the post you wanted to read the review</h4>
     </div>
     <app-searchbar placeholder="Enter post Name"
@@ -22,35 +15,24 @@ alt=""/>
     <div>
     </div>
     <div *ngIf="!category">
-      <h1 class="header font-poppins">CHOOSE ANY OF THE CATEGORY TO SEARCH FOR</h1>
+      <h1 class="header font-poppins">Select the category</h1>
     </div>
-    <div class="row mt-4" *ngIf="!category" style="cursor: pointer;" class="d-flex justify-content-around flex-wrap align-content-center">
-      <div
-        class="col-md-3 mb-3"
-        *ngFor="let item of categories; let i = index"
-      >
-        <div
-          class="card h-100 shadow rounded "
-          [ngStyle]="{
-            'background-image': 'url(' + item.icon + ')',
-            'background-size': 'cover',
-            'background-position': 'center',
-            'background-repeat': 'no-repeat'
-          }"  
-        >
-          <div class="card-body text-white" style="background-color: rgba(0, 0, 0, 0.7);">
-            <h1 class="card-title" (click)="onCategorySelect(item.label)">{{ item.label }}</h1>
-            <p>{{ trimString(item.description) }}</p>
-            <div *ngFor="let sublabel of item.sublabel.split(';')" class="sublabel rounded">
-              <span (click)="searchByLabel(item.label,sublabel)">{{ sublabel }}</span>
-            </div>
+    <div *ngIf="!category" style="cursor: pointer;"
+     class="d-flex justify-content-between flex-wrap align-content-center container mt-4"
+>
+      <div class="col-md-3 mb-3" *ngFor="let item of categories; let i = index">
+        <div class="" (mouseenter)="showPopup(true,item.label)">
+          <div >
+            <h1 class="card-title" >{{ item.label }}</h1>
           </div>
         </div>
       </div>
     </div>
     
   </div>
+  <hr/>
 </div>
+
 
 
   <!-- render products -->
@@ -74,19 +56,31 @@ alt=""/>
         <div class="row">
           <div class="col-md-3 mb-3" *ngFor="let item of posts;let i=index" (click)="onSelectProduct(item.postid)">
             <div class="card h-100 shadow rounded p-2">
-              <img [src]=getBase64Image(item.images[0].data) class="card-img-top" alt="{{ item.postName }}">
+              <img [src]=getBase64Image(item.images[0].data) class="card-img-top" style="height: 260px;" alt="{{ item.postName }}">
               
-              <div class="card-body">
+              <div class="card-body p-0">
                 <h5 class="card-title"><b>{{ item.postName }}</b></h5>
                 <h4 *ngIf="item.AddtionalName"><b>{{item.AdditionalName}}</b></h4>
-                <div class="d-flex gap-3">
-                  <ngb-rating class="star-rating" [(rate)]="item.ratings" [max]="5" [readonly]="true"></ngb-rating>
-                  <h3>{{item.ratings}}.0</h3>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       
+      <div class="label-popup" *ngIf="popShow">
+        <div class="d-flex flex-row flex-wrap justify-content-evenly align-content-start">
+          <div *ngFor="let label of labelList;let i=index;" class="p-4">
+           <div>
+            <span class="h6 pointer" (click)="fetchBySelection(label.name)"><b>{{label.name}}</b></span>
+            <hr/>
+           </div>
+           <ul class="list-group list-group-flush" *ngFor="let sublabels of label.subTags;let j=index">
+            <span class="list-group-item pointer" (click)="fetchBySelection(sublabels)">{{sublabels}}</span>
+           </ul>
+          </div>
+        </div>
+      </div>
+
 </section>
+
+

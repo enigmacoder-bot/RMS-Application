@@ -9,18 +9,20 @@
     </div>
     <div class="d-flex justify-space-around gap-4">
        <form>
-        <div class="row"> 
+        <div class="d-flex flex-column flex-wrap align-content-center"> 
             <div *ngIf="!currentUser.profileIcon">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5-3YjBcXTqKUlOAeUUtuOLKgQSma2wGG1g&s" alt="Default Avatar">
             </div>
             <div class="profile-img-container" *ngIf="currentUser.profileIcon">
                 <img class="profile-img" [src]="'assets/rms-avator/' + currentUser.profileIcon + '.jpg'" alt="User Avatar">
             </div>
-            <div>
-                <button (click)="allowEdit()" class="btn">
-                    <fa-icon [icon]="editUserIcon"></fa-icon>
-                </button>
-            </div>
+        </div>
+        <div class="row">
+            <button (click)="allowEdit()" class="btn">
+                <fa-icon [icon]="editUserIcon"></fa-icon>
+            </button>
+        </div>
+        <div class="row">
             <div class="form-group">
                 <label>Username</label>
                 <span class="form-control">{{currentUser.username}}</span>
@@ -112,14 +114,31 @@
         <h3>Edit Profile Image :</h3>
     </div>
     <div class="modal-body">
-        <div class="avatar-grid">
-            <div *ngFor="let avatar of avators; let i = index" (click)="toggleOverlay(i)" class="image-container">
-                <img [src]="'assets/rms-avator/' + avatar + '.jpg'" alt="Avatar" class="avator" [ngClass]="{'overlay': selectedAvatarIndex === i}" />
-            </div>
-        </div>
-        <div class="form-group mt-3">
-            <input class="form-control" type="text" [(ngModel)]="username">
-        </div>
+       <mat-accordion>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Choose Avatar</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+                <div class="avatar-grid">
+                    <div *ngFor="let avatar of avators; let i = index" (click)="toggleOverlay(i)" class="image-container">
+                        <img [src]="'assets/rms-avator/' + avatar + '.jpg'" alt="Avatar" class="avator" [ngClass]="{'overlay': selectedAvatarIndex === i}" />
+                    </div>
+                </div>
+            </mat-panel-description>     
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>User Info :</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+                <div class="form-group mt-3">
+                    <h3>Username</h3>
+                    <input class="form-control" type="text" [(ngModel)]="username">
+                </div>
+            </mat-panel-description>
+        </mat-expansion-panel>
+       </mat-accordion>
         <div class="d-flex justify-content-end mt-3 gap-3">
             <button class="btn btn-primary" (click)="updateUserInfo()">Save</button>
             <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>

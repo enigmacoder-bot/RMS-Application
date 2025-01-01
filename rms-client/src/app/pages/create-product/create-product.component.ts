@@ -25,6 +25,8 @@ export class CreateProductComponent {
   postid:any
   private stepper!: Stepper;
   categories:any[]=[]
+  labelList:any[]=[]
+  subLabelList:any[]=[]
   newSubCategory :string=''
   backArrow = faArrowLeft
   trashImage = faTrash
@@ -52,12 +54,14 @@ export class CreateProductComponent {
     AdditionalName:new FormControl("",Validators.required),
     description: new FormControl("", Validators.required),
     category: new FormControl("", Validators.required),
+    label:new FormControl("",Validators.required),
+    sublabel:new FormControl("",Validators.required),
     ratings :new FormControl("",Validators.required),
     date: new FormControl("",),
     tag:new FormControl(""),
     tags: new FormArray([]),
     subCategory:new FormControl(""),
-    subCategories: new FormArray([]),
+    subCategories: new FormControl(),
     image:new FormControl(""),
     images: new FormArray([])
   });
@@ -105,7 +109,7 @@ export class CreateProductComponent {
     formObj["userid"] = this.userid;
     formObj["images"] = base64Images;
     formObj["tags"] = this.convertArrayToString(this.form.get("tags") as FormArray);
-    formObj["subcategory"] = this.convertArrayToString(this.form.get("subCategories") as FormArray);  
+    formObj["subcategory"] = this.form.get('label')?.value+";"+this.form.get('sublabel')?.value
     console.log(formObj)
     Object.keys(formObj).forEach(key => {
       formData.append(key, JSON.stringify(formObj[key]));
@@ -138,34 +142,25 @@ export class CreateProductComponent {
     return true;
   }
 
-  onSelectCategory(value:any)
+  onSelectCategory(value:string)
   {
     this.form.patchValue({
-      category:value.label
+      category:value
     })
   }
-  
-  addSubCategory()
+
+  onSelectLabel(value:string)
   {
-    console.log("Hello")
-   if(this.form.value.subCategory !=='')
-   {
-    const subcategory = new FormControl(this.form.value.subCategory)
-    const subcategories = this.form.get("subCategories") as FormArray;
-    subcategories.push(subcategory)
-    this.form.controls.subCategory.reset()
-   }
+    this.form.patchValue({
+      label:value
+    })
   }
 
-
-  getSubCategories()
+  onSelectSubLabel(value:string)
   {
-    return this.form.get("subCategories") as FormArray
-  }
-
-  removeSubCategory(index:number)
-  {
-    this.form.controls.subCategories.removeAt(index)
+    this.form.patchValue({
+      sublabel:value
+    })
   }
 
   getTags()
@@ -184,18 +179,16 @@ export class CreateProductComponent {
     this.form.controls.tags.removeAt(index)
   }
 
-  onKeydownSubcategory(event:any)
-  {
-    if (event.key === "Enter") {
-      this.addSubCategory()
-    }
-  }
-
   onKeydownTag(event:any)
   {
     if(event.key === "Enter")
     {
+      const tagList = this.form.get("tags") as FormArray
+      console.log(tagList)
+     if(tagList)
+     {
       this.addTags()
+     }
     }
   }
 
@@ -292,17 +285,6 @@ export class CreateProductComponent {
     });
   }
 
-  // getBase64Image(buffer:any)
-  // {
-  //   return "data:image/jpeg;base64," + this.sharedServices.convertBinaryToBase64(buffer)
-  // }
-
-
-
-
-
-
-
   getPostDetailsForUpdate() {
     if (this.postid) {
       this.postService.getPostById(this.postid).subscribe((data) => {
@@ -325,11 +307,10 @@ export class CreateProductComponent {
   
         // Update subCategories
         const CZsubCategories = this.convertStringToArray(data.subcategory);
-        const subCategoriesArray = this.getSubCategories(); // Access the FormArray directly
-        CZsubCategories.forEach((subcategory) => {
-          subCategoriesArray.push(new FormControl(subcategory)); // Push new FormControl
-        });
-
+        this.form.patchValue({
+          label:CZsubCategories[0],
+          sublabel:CZsubCategories[1]
+        })
         data.images.forEach(async (val: any)=>{
           const array = await "data:image/jpeg;base64," + this.sharedSerivices.convertBinaryToBase64(val?.data)
           console.log(array)
@@ -340,16 +321,28 @@ export class CreateProductComponent {
           });
           (this.form.get('images') as FormArray).push(imageGroup);
         })
-
-        console.log(this.form)
       });
     }
 
   }
-  
 
+  renderLabels(name:string)
+  {
+    const labels = this.categories.filter((category)=>{return category.label === name})
+    console.log(labels)
+    this.labelList =  JSON.parse(labels[0].sublabel)
+    this.onSelectCategory(name)
+  }
 
+  renderSubLabels(name:string)
+  {
+    this.subLabelList = (this.labelList.filter((label)=>{return label.name === name}))[0].subTags
+    this.onSelectLabel(name)
+  }
 
-
-  
+  selectSubLabel(name:string)
+  {
+    this.onSelectSubLabel(name)
+  }
+    
 }

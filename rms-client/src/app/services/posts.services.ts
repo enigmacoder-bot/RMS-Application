@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http"
+import { envirnomentConfig } from "../envirnoments/envirnoment";
 
 @Injectable({
     providedIn:"root"
@@ -10,7 +11,7 @@ export class PostServices {
 
     constructor(private http:HttpClient){}
 
-    apiUrl = "http://localhost:9883/api/posts"
+    apiUrl = envirnomentConfig.baseUrl+"posts"
 
     getAllPost():Observable<any[]>{
         return this.http.get<any[]>(this.apiUrl);

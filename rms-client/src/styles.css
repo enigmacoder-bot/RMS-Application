@@ -6,9 +6,18 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+body{
+    background-color:rgb(245 245 245 / 58%);
+}
+.logo-brand{
+    width: 100px;
+    height: 60px;
+}
+
 .pointer{
     cursor: pointer;
 }
+
 .remove-markers{
     width: 19px;
     height: 19px;
@@ -102,7 +111,7 @@ li{
 
 .avatar-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
     gap: 10px; /* Space between images */
 }
 
@@ -201,7 +210,7 @@ li{
 }
 .profile-img{
     max-width: 100%;
-    clip-path: circle(42.29% at 51.38% 37.94%);
+    clip-path:circle(38.29% at 49.38% 33.94%);
 }
 .profile-name{
     gap: 3rem  !important;
@@ -245,4 +254,20 @@ li{
     width: 128px;
     height: 128px;
 }
-    
+.label-popup
+{
+    background-color: white;    
+    position: absolute;
+    height: 50vh;
+    width: 100%;
+}
+/* #labels{
+    position: relative;
+    left: 162px;
+}
+#sublabels{
+
+} */
+.dropdowns{
+    position:relative;
+}

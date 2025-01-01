@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div>
-      <button class="btn btn-secondary mt-3" (click)="back()">
+      <button class="btn btn-secondary" (click)="back()">
         <fa-icon [icon]="backArrow"></fa-icon>
       </button>
     </div>
@@ -31,41 +31,97 @@
     </div>
     <div class="bs-stepper-content">
       <form [formGroup]="form">
-        
+
         <!-- Step 1: Product Info -->
         <div id="step-1" class="content">
           <h2>Enter Post Details :</h2>
           <div class="form-group">
             <label for="productName"> Name</label>
-            <input type="text" id="productName" formControlName="postName" class="form-control" placeholder="Enter post name" />
+            <input type="text" id="productName" formControlName="postName" class="form-control"
+              placeholder="Enter post name" />
           </div>
           <div class="form-group mt-2">
             <label for="productName"> Additonal Name :</label>
-            <input type="text" id="productName" formControlName="AdditionalName" class="form-control" placeholder="Enter Additional name" />
+            <input type="text" id="productName" formControlName="AdditionalName" class="form-control"
+              placeholder="Enter Additional name" />
           </div>
           <div class="form-group mt-3">
             <label for="productDescription">Enter the whole description</label>
-            <textarea id="productDescription" formControlName="description" class="form-control" placeholder="Enter post description"></textarea>
+            <textarea id="productDescription" formControlName="description" class="form-control"
+            rows="4"
+              placeholder="Enter post description"></textarea>
           </div>
+          <div class="d-flex flex-end mt-3">
+            <button (click)="next()" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Categories & Tags -->
+        <div id="step-2" class="content">
+
+          <h2>Category and Tags :</h2>
+
           <div class="form-group mt-3">
             <div class="row">
-              <div class="col">
-                <div ngbDropdown class="d-inline-block">
+              <div class="d-flex align-items-center gap-4">
+                <div ngbDropdown>
                   <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                    {{ form.get('category')?.value || 'Select Category' }} <!-- Display selected value -->
+                    {{ form.get('category')?.value || 'Select Category' }}
                   </button>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button 
-                      ngbDropdownItem 
-                      *ngFor="let category of categories;let i=index;" 
-                      (click)="onSelectCategory(category)">
-                      {{ category.label }}
-                    </button>
+                  <div ngbDropdownMenu class="dropdowns">
+                    <div ngbDropdownItem *ngFor="let category of categories;let i=index;">
+                        <div (click)="renderLabels(category.label)">{{ category.label }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="labelList.length" ngbDropdown>
+                  <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                    {{ form.get('label')?.value || 'Select Label' }}
+                  </button>
+                  <div ngbDropdownMenu class="dropdowns">
+                    <div ngbDropdownItem *ngFor="let label of labelList;let j=index;">
+                        <div (click)="renderSubLabels(label.name)">{{ label.name }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="subLabelList.length" ngbDropdown>
+                  <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                    {{ form.get('sublabel')?.value || 'Select Sub-Label' }}
+                  </button>
+                  <div ngbDropdownMenu class="dropdowns">
+                    <div ngbDropdownItem *ngFor="let sublabel of subLabelList;let i=index;">
+                      <div (click)="selectSubLabel(sublabel)">{{ sublabel }}</div>
+                    </div>
+                  </div>
+                </div>      
+              </div>
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <label>Addtional Tags</label>
+            <div>
+              <span>(Add some other addtional tags for better SEO)</span>
+            </div>
+            <div>
+              <div class="d-flex gap-2">
+                <input type="text" formControlName="tag" class="form-control mb-2" placeholder="Enter tag"
+                  (keydown)="onKeydownTag($event)" />
+              </div>
+              <!-- <span>Cannot add more than 20 tags</span> -->
+              <div class="d-flex flex-row flex-wrap">
+                <div *ngFor="let tag of getTags().controls; let i = index">
+                  <div class="d-flex gap-2">
+                    <span class="badge bg-primary m-1">{{tag.value}}</span>
+                    <div type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeTag(i)">
+                      <span>-</span></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="form-group mt-3">
             <label for="">Ratings :</label>
             <div>
@@ -73,58 +129,6 @@
             </div>
             <div>
               <ngb-rating [max]="5" class="star-rating-md" formControlName="ratings"></ngb-rating>
-            </div>
-          </div>
-         <div class="d-flex flex-end mt-3">
-          <button (click)="next()" class="btn btn-primary">Next</button>
-         </div>
-        </div>
-
-        <!-- Step 2: Categories & Tags -->
-        <div id="step-2" class="content">
-
-
-          <div class="form-group">
-            <label>Add Sub Categories :</label>
-            <div>
-              <span>(for example : Title, subTitle, Brand name etc..)</span>
-            </div>
-            <div>
-              <div class="d-flex gap-2">
-                <input type="text" class="form-control mb-2" formControlName="subCategory" placeholder="Enter sub-category" 
-              (keydown)="onKeydownSubcategory($event)" />
-              </div>
-              <div *ngIf="getSubCategories().controls.length > 0">
-                <div class="d-flex flex-row flex-wrap">
-                  <div *ngFor="let subCategory of getSubCategories().controls; let i = index">
-                    <div class="d-flex gap-2">
-                      <span>{{subCategory.value}}</span>
-                    <button type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeSubCategory(i)"><span>-</span></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group mt-3">
-            <label>Addtional Tags</label>
-            <div>
-              <span>(Add some other addtional tags for better SEO)</span>
-            </div>
-            <div>
-             <div class="d-flex gap-2">
-              <input type="text" formControlName="tag" class="form-control mb-2" placeholder="Enter tag" 
-              (keydown)="onKeydownTag($event)" />
-             </div>
-             <div class="d-flex flex-row flex-wrap">
-              <div *ngFor="let tag of getTags().controls; let i = index">
-                <div class="d-flex gap-2">
-                  <span>{{tag.value}}</span>
-                <div type="button" class="btn btn-danger btn-sm remove-markers" (click)="removeTag(i)"><span>-</span></div>
-                </div>
-              </div>  
-             </div>
             </div>
           </div>
 
@@ -136,39 +140,45 @@
 
         <!-- Step 3: Images & Submit -->
         <div id="step-3" class="content text-center">
+
+          <h2>Images :</h2>
+
           <div class="form-group">
             <div class="container">
               <div *ngIf="getImages().length < 3">
-                <img src="assets/icons/plus.png" id="image"  (click)="addImage()" class="list-image cursor-pointer" alt="">
-               </div>
-              <div formArrayName="images" class="d-flex mr-4 justify-content-center"> 
-                <div *ngFor="let image of getImages().controls; let i = index" [formGroupName]="i" class="shadow rounded m-3">
-                  <img [src]="image.get('preview')?.value" *ngIf="image.get('preview')?.value" style="max-width: 200px;" alt="sx"/>
+                <img src="assets/icons/plus.png" id="image" (click)="addImage()" class="list-image cursor-pointer"
+                  alt="">
+              </div>
+              <div formArrayName="images" class="d-flex mr-4 justify-content-center">
+                <div *ngFor="let image of getImages().controls; let i = index" [formGroupName]="i"
+                  class="shadow rounded m-3">
+                  <img [src]="image.get('preview')?.value" *ngIf="image.get('preview')?.value" style="max-width: 200px;"
+                    alt="sx" />
                   <div class="d-flex flex-row justify-content-between">
                     <div class="mb-0 p-0">
-                      <input type="file" class="editinput" (change)="onFileChange($event, i)" accept="image/jpg" />    
-                     <button type="button" class="btn">
-                      <fa-icon [icon]="editImage"></fa-icon>  
-                     </button>                
+                      <input type="file" class="editinput" (change)="onFileChange($event, i)" accept="image/jpg" />
+                      <button type="button" class="btn">
+                        <fa-icon [icon]="editImage"></fa-icon>
+                      </button>
                     </div>
                     <button type="button" (click)="removeImage(i)" class="btn">
                       <fa-icon [icon]="trashImage"></fa-icon>
                     </button>
                   </div>
                 </div>
-            </div>
               </div>
             </div>
-            <div>
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-              <button type="button" (click)="prev()" class="btn btn-primary">Previous</button>
-              <button type="submit" (click)="onSubmit()" class="btn btn-success">Submit</button>
-            </div>
           </div>
-          
+          <div>
+          </div>
+          <div class="d-flex justify-content-between mt-3">
+            <button type="button" (click)="prev()" class="btn btn-primary">Previous</button>
+            <button type="submit" (click)="onSubmit()" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+
       </form>
-      
+
     </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { envirnomentConfig } from "../envirnoments/envirnoment";
 
 @Injectable({
     providedIn:"root"
@@ -10,7 +11,8 @@ export class CategoryServices {
 
     constructor(private http:HttpClient){}
 
-    apiUrl = "http://localhost:9883/api/categories"
+    apiUrl = envirnomentConfig.baseUrl+"categories"
+    
 
     getAllCategory():Observable<any[]>{
         return this.http.get<any[]>(this.apiUrl);

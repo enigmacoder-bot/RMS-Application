@@ -3,6 +3,7 @@ import { catchError, map, Observable, of, switchMap } from "rxjs";
 import { BehaviorSubject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthServices } from "./auth.services";
+import { envirnomentConfig } from "../envirnoments/envirnoment";
 
 @Injectable({
     providedIn:"root",
@@ -12,7 +13,7 @@ export class UserServices{
 
     constructor(private http:HttpClient,private authServices:AuthServices){}
 
-    apiUrl = "http://localhost:9883/api/users"
+    apiUrl = envirnomentConfig.baseUrl+"users"
    
     loginUser(data:any):Observable<any>{
       return this.http.post<any>(this.apiUrl+"/login",data)
