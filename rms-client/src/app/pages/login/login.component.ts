@@ -24,19 +24,26 @@ export class LoginComponent implements AfterViewInit {
   password: string = '';
   authenticateString: string = 'Dont have an account? Create one !';
   isSignIn: boolean = true;
+  errorMessage =""
 
   ngAfterViewInit() {}
 
   loginUser() {
     if (this.email && this.password && !this.validatePassword()) {
       const loginObj = this.loginform?.value;
-      this.userService.loginUser(loginObj).subscribe((data) => {
-        this.authService.setloggedUser(data);
-        this.router.navigateByUrl('/');
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-      });
+      this.errorMessage=''
+      this.userService.loginUser(loginObj).subscribe({
+        next : (data) => {
+          this.authService.setloggedUser(data);
+            this.router.navigateByUrl('/');
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
+        },
+        error : (err) =>{
+          this.errorMessage = err.error.error
+        }
+      })
     }
   }
 
@@ -44,13 +51,18 @@ export class LoginComponent implements AfterViewInit {
     if (this.email && this.password && !this.validatePassword()) {
       const formObj = this.loginform?.value;
       formObj['username'] = this.sharedSerice.randomizeUsername(formObj.email);
-      this.userService.registerUser(formObj).subscribe((data) => {
-        this.authService.setloggedUser(data);
-        this.router.navigateByUrl('/');
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-      });
+      this.userService.registerUser(formObj).subscribe({
+        next : (data) =>{
+          this.authService.setloggedUser(data);
+          this.router.navigateByUrl('/');
+          setTimeout(() => {
+              location.reload();
+          }, 1000);
+        },
+        error :(err) =>{
+          this.errorMessage = err.error.error
+        }
+      })
     }
   }
 

@@ -13,7 +13,10 @@ body{
     width: 100px;
     height: 60px;
 }
-
+.fit-height
+{
+    height: fit-content;
+}
 .pointer{
     cursor: pointer;
 }
@@ -216,6 +219,15 @@ li{
     gap: 3rem  !important;
 }
 
+.app-search-input{
+        background-color: #fff;
+        border-color: #959499;
+        border-radius: 3.9375rem;
+        /* height: 2.5rem; */
+        padding: .625rem .75rem .625rem 2.5rem;
+}
+
+
 @media only screen and (max-width:600px)  {
     .img-slide {
         width: 281px !important;
@@ -227,6 +239,7 @@ li{
     .picsum-img-wrapper{
         display: flex !important;
         justify-content: center !important;
+        width: 100%;
     }
     .modal-content{
             width: 367px !important;
@@ -258,8 +271,10 @@ li{
 {
     background-color: white;    
     position: absolute;
+    height: 50vh;
     width: 100%;
 }
+
 /* #labels{
     position: relative;
     left: 162px;

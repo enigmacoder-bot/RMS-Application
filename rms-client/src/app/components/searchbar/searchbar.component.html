@@ -1,7 +1,7 @@
 <div class="form-group container d-flex justify-content-between">
     <label *ngIf="label" for="searchInput">{{label}}</label>
     <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
-    <input type="text" [(ngModel)]="searchKey" class="form-control"
+    <input type="text" [(ngModel)]="searchKey" class="app-search-input form-control"
     [placeholder]=placeholder
     [ngStyle]="{height:size}"
     (change)="onInputChange()"

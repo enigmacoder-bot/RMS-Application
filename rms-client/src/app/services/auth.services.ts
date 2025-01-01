@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn:"root"
@@ -16,7 +17,7 @@ export class AuthServices{
     roleObj = this.role.asObservable();
 
 
-    constructor() {
+    constructor(private router:Router) {
       const Isuser = sessionStorage.getItem("user");
       if(Isuser)
       {  
@@ -58,7 +59,10 @@ export class AuthServices{
       logout(data:boolean){
         this.auth.next(data)
         sessionStorage.removeItem("user")
-        location.reload()
+        this.router.navigateByUrl("/login")
+        setTimeout(()=>{
+          location.reload()
+        },1000)
       }
 
       getloggedUser(){

@@ -31,6 +31,7 @@ export class CreateProductComponent {
   backArrow = faArrowLeft
   trashImage = faTrash
   editImage = faImage
+  isError = false
 
   imageIndex:number=0
 
@@ -171,8 +172,15 @@ export class CreateProductComponent {
   {
       const tag = new FormControl(this.form.value.tag)
       const tags = this.form.get("tags") as FormArray
+      if(tags.length === 10)
+      {
+        this.isError = true
+      }
+      else{
+      this.isError = false
       tags.push(tag)
       this.form.controls.tag.reset()
+      }
   }
   removeTag(index:number)
   {

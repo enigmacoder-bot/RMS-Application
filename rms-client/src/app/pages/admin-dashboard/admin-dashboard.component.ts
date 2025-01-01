@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { SharedServices } from 'src/app/services/shared-services';
 import { FeedbackServices } from 'src/app/services/feedback.services';
-import { faUser,faEnvelopeOpen,faLayerGroup,faFlag } from '@fortawesome/free-solid-svg-icons'
+import { faUser,faEnvelopeOpen,faLayerGroup,faFlag,faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Router } from '@angular/router';
 
 
@@ -32,6 +32,7 @@ faUser = faUser
 faPost = faEnvelopeOpen
 faCategories = faLayerGroup
 faReport = faFlag
+faTrash = faTrash
 
 
 @ViewChild('editUser') editUser:any;

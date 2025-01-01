@@ -5,12 +5,8 @@
     </div>
 </div>
 <div class="container" *ngIf="currentProduct">
-    <div class="m-3 d-flex justify-content-between">
-        <div>
-            <button class="btn btn-secondary" (click)="back()" >
-                <fa-icon [icon]="backArrow"></fa-icon>
-            </button>
-        </div>
+    <div class=" d-flex justify-content-between">
+                <fa-icon class="pointer" [icon]="backArrow" (click)="back()"></fa-icon>
         <div>
             <div ngbDropdown class="d-inline-block btn" *ngIf="isLoggedIn">
                 <button id="dropdownBasic1" ngbDropdownToggle class="product-dropdown">
@@ -30,17 +26,15 @@
     </div>
     <div class="row">
         <div class="col">
+            <div class="text-center">
+                <span class="h4"><b>{{currentProduct?.postName}}</b></span>
+            </div>
             <app-carousel [images]="Images"></app-carousel>
-        </div>
-        <div class="col">
-            <h2>Name : <b>{{currentProduct?.postName}}</b></h2>
-            <h4><b>{{currentProduct?.AdditionalName}}</b></h4>
+            <div class="py-2">
+            <span class="h6"><b>{{currentProduct?.AdditionalName}}</b></span><br/>
             <div *ngFor="let sub of currentProduct?.subCategory;">{{sub}}</div>
             <span>{{currentProduct?.description}}</span>
             <span>{{currentProduct?.Description}}</span>
-            <div>
-                <h2 class="mb-0">{{currentProduct?.ratings}}.0</h2>
-            </div>
             <div class="rating">
                 <ngb-rating [max]="5" [rate]="currentProduct?.ratings" class="star-rating"
                     [readonly]="true"></ngb-rating>
@@ -48,7 +42,9 @@
             <div>
                 <span>uploaded on :<b>{{currentProduct?.date}}</b></span>
             </div>
-            <hr />
+            </div>
+        </div>
+        <div class="col">
             <div class="row">
                 <div class="review-container" *ngIf="isLoggedIn">
                     <div class="form-group col">
@@ -65,15 +61,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="row">
-                <div class="user-icon col">
-                    <img src="" alt="">
-                </div>
-
-            </div>
             <div>
+                <hr/>
                 <div class="d-flex justify-content-between">
                     <div>
                         <h2>Reviews for this post :</h2>
@@ -87,31 +76,40 @@
                            </div>
                     </div>
                 </div>
-                <div *ngFor="let review of reviews" class="d-flex justify-content-between  p-3 mb-1 bg-white rounded ">
-                    <div class="d-flex justify-content-between gap-3">
-                        <img class="review-avator" [src]="'assets/rms-avator/' + review.profileIcon + '.jpg'" alt="User Avatar">
+                <div *ngFor="let review of reviews" class=" p-3 mb-1 bg-white rounded ">
+                    <div class="d-flex gap-4">
                         <div>
-                            <h3>{{review.username}}</h3>
+                            <img class="review-avator" [src]="'assets/rms-avator/' + review.profileIcon + '.jpg'" alt="User Avatar">
                         </div>
-                    </div>
-                    <div>
-                        <span>{{review.comment}}</span>
-                    </div>
-                    <div class="d-flex justify-content-between gap-3">
-                        <div>
-                        <ngb-rating [(rate)]="review.ratings" class="star-rating-md" [max]="5"
-                            [readonly]="true"></ngb-rating>
-                        </div>
-                        <div ngbDropdown class="d-inline-block"  *ngIf="userid === review.userid">
-                            <button id="dropdownBasic1" ngbDropdownToggle>:
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem (click)="populateReview(review)">Edit</button>
-                                <button ngbDropdownItem (click)="deleteReview(review.reviewid)">Delete</button>
+                        <div class="d-flex flex-column flex-grow-1 gap-1">
+                            <div class="d-flex justify-content-between">
+                                <div><span><b>{{review.username}}</b></span></div>
+                                <div><span>{{review.createdOn}}</span></div>
+                                <div><ngb-rating class="star-rating" [(rate)]="review.ratings" [max]="5" [readonly]="true"></ngb-rating></div>
+                                <div>
+                                    <div ngbDropdown class="d-inline-block"  *ngIf="userid === review.userid">
+                                        <button id="dropdownBasic1" ngbDropdownToggle class="product-dropdown">
+                                            <fa-icon [icon]="settings"></fa-icon>
+                                        </button>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                            <button ngbDropdownItem (click)="populateReview(review)">Edit</button>
+                                            <button ngbDropdownItem (click)="deleteReview(review.reviewid)">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div><span>{{review.comment}}</span></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="user-icon col">
+                    <img src="" alt="">
+                </div>
+
             </div>
         </div>
     </div>

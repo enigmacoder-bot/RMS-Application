@@ -109,7 +109,7 @@
                 <input type="text" formControlName="tag" class="form-control mb-2" placeholder="Enter tag"
                   (keydown)="onKeydownTag($event)" />
               </div>
-              <!-- <span>Cannot add more than 20 tags</span> -->
+              <p *ngIf="isError" class="text-danger">Cannot add more than 20 tags</p>
               <div class="d-flex flex-row flex-wrap">
                 <div *ngFor="let tag of getTags().controls; let i = index">
                   <div class="d-flex gap-2">
