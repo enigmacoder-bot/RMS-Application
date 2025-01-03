@@ -31,7 +31,8 @@
             </div>
             <app-carousel [images]="Images"></app-carousel>
             <div class="py-2">
-            <span class="h6"><b>{{currentProduct?.AdditionalName}}</b></span><br/>
+            <span class="h5"><b>{{currentProduct?.AdditionalName}}</b></span><br/>
+            <span class="h6"><span>Brands By : </span><b>{{currentProduct?.subcategory}}</b></span><br/>
             <div *ngFor="let sub of currentProduct?.subCategory;">{{sub}}</div>
             <span>{{currentProduct?.description}}</span>
             <span>{{currentProduct?.Description}}</span>

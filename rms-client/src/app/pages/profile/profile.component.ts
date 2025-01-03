@@ -107,6 +107,7 @@ deletePost()
     Swal.fire({ toast: true, position: 'bottom-end', showConfirmButton: false, timer: 3000, title: 'Success!', text: 'Successfully Deleted..!', icon: 'success', });
     this.getAllUserPosts()
   })
+  this.closeModal()
 }
 
 

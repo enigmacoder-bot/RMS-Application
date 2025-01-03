@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class SupportComponent {
 
-  reportOptions = ['Spam','Nudity','Scam','Illegal','Suicide or self-injury','Violence','Hate Speech','Something else'];
+  reportOptions = ['Bug','Nudity','Scam','Illegal','Suicide or self-injury','Violence','Hate Speech','Something else'];
   priorityOptions =['High','Mid','Low'];
 
   selectedOption:string=""
