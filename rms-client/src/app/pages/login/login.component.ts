@@ -4,6 +4,7 @@ import { UserServices } from 'src/app/services/user-services';
 import { AuthServices } from 'src/app/services/auth.services';
 import { SharedServices } from 'src/app/services/shared-services';
 import { Router } from '@angular/router';
+import { envirnomentConfig } from 'src/app/envirnoments/envirnoment';
 
 @Component({
   selector: 'app-login',
@@ -86,6 +87,6 @@ export class LoginComponent implements AfterViewInit {
   }
 
   openWindow() {
-    window.location.href = 'http://localhost:9883/api/users/auth/google';
+    window.location.href=envirnomentConfig.baseUrl+"users/auth/google";
   }
 }

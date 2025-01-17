@@ -23,7 +23,7 @@ import { CallbackComponent } from './pages/callback/callback.component';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { SupportComponent } from './pages/support/support.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -55,7 +55,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatTabsModule,
     NgbModalModule,
     NgbDropdownModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
