@@ -29,7 +29,7 @@
             <div class="text-center">
                 <span class="h4"><b>{{currentProduct?.postName}}</b></span>
             </div>
-            <app-carousel [images]="Images"></app-carousel>
+            <app-carousel *ngIf="Images.length > 0" [images]="Images"></app-carousel>
             <div class="py-2">
             <span class="h5"><b>{{currentProduct?.AdditionalName}}</b></span><br/>
             <span class="h6"><span>Brands By : </span><b>{{currentProduct?.subcategory}}</b></span><br/>

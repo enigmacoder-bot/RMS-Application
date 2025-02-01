@@ -23,6 +23,7 @@ export class HomeComponent {
   categories:any[] =[]
   category:string | null =""
   searchKey:string | null =""
+  currentCategory:any
   popShow:boolean=false
   selectedCategory:string=""
   labelList:any[]=[]
@@ -71,6 +72,7 @@ export class HomeComponent {
   {
     localStorage.setItem("category",category)
     this.category = category
+    this.currentCategory = this.categories.filter((cat)=>{ return category === cat.label})
   }
 
   getProducts(key:any)
@@ -94,6 +96,11 @@ export class HomeComponent {
 
   getBase64Image(buffer:any)
   {
+    console.log(buffer)
+    if(buffer?.length === 0)
+    {
+      return false;
+    }
     return "data:image/jpeg;base64," + this.sharedServices.convertBinaryToBase64(buffer)
   }
 

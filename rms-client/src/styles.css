@@ -88,7 +88,12 @@ li {
     margin: 10px;
     padding: 27px;
 }
-
+.category-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: center;
+}
 
 .native-post-web {
     display: block;
@@ -311,6 +316,15 @@ li {
     .profile-name {
         gap: 1rem !important;
     }
+    .category-container{
+        display: flex !important;
+        justify-content: center !important;
+        text-align: center;
+    }
+    .category-container > div{
+        padding: 30px;
+        border-bottom: 5px solid white;
+    }
 }
 
 .noproductimage {
@@ -328,7 +342,7 @@ li {
 
 .category-navs {
     height: 100%;
-    background-color: black;
+    background-color: #082d63;
     color: white;
     width: 100%;
 }

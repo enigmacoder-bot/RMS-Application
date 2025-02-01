@@ -3,14 +3,17 @@ const userController = require('../controllers/userController');
 const auth = require('../middleware/auth');
 const passport = require('../config/passport');
 const router = express.Router();
+require('dotenv').config();
+
+const frontendUrl = process.env.FRONTEND_URL;
 
 router.use(passport.initialize());
-// router.use(passport.session());
+
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
    const token = req.user.token
-  res.redirect(`http://localhost:4200/auth/google/callback?token=${token}`);
+  res.redirect(`${frontendUrl}/auth/google/callback?token=${token}`);
 });
 
 router.post('/register', userController.registerUser);

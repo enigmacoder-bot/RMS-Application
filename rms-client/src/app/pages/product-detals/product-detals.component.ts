@@ -77,6 +77,7 @@ export class ProductDetalsComponent {
     this.isLoggedIn = this.authServices.isLoggedIn()
     this.userid = this.authServices.getLoggeduserId()
     this.isAdmin = this.authServices.IsUserAdmin()
+    console.log(this.Images)
   }
 
   back()
@@ -96,9 +97,16 @@ export class ProductDetalsComponent {
   {
     this.postService.getPostById(this.id).subscribe((data)=>{
       this.currentProduct = data
-      this.currentProduct.images.map((image:any)=>{
-        this.Images.push(this.getBase64Image(image.data))
-      })
+      console.log(this.currentProduct)
+      if( this.currentProduct.images.length === 1 && this.currentProduct.images[0]?.data?.length === 0)
+      {
+          
+      }
+      else{
+        this.currentProduct.images.map((image:any)=>{
+          this.Images.push(this.getBase64Image(image.data))
+        })
+      }
     })
     
   }
